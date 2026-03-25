@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-layout">
+    <!-- LEFT: Main Content Area -->
+    <div class="dashboard-main">
+        <!-- Stat Cards Row -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-icon stat-icon-wallet">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                            <line x1="1" y1="10" x2="23" y2="10" />
+                        </svg>
+                    </div>
+                    <button class="stat-dismiss" title="Dismiss">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="stat-value" id="total-customers">$1,45,000</div>
+                <div class="stat-label">Recent account balance</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-icon stat-icon-transaction">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="18" rx="2" />
+                            <line x1="8" y1="7" x2="16" y2="7" />
+                            <line x1="8" y1="11" x2="16" y2="11" />
+                            <line x1="8" y1="15" x2="12" y2="15" />
+                        </svg>
+                    </div>
+                    <button class="stat-dismiss" title="Dismiss">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="stat-value" id="total-policies">50</div>
+                <div class="stat-label">Number of your transaction</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-icon stat-icon-spending">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="8" x2="12" y2="16" />
+                            <line x1="8" y1="12" x2="16" y2="12" />
+                        </svg>
+                    </div>
+                    <button class="stat-dismiss" title="Dismiss">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="stat-value" id="expired-policies">$1,15,000</div>
+                <div class="stat-label">Your total spending</div>
+            </div>
+        </div>
+
+        <!-- Earning Report Section -->
+        <div class="earning-report-section">
+            <div class="earning-report-header">
+                <h3 class="section-title">Earning Report</h3>
+                <div class="dropdown-selector">
+                    <select id="report-period">
+                        <option value="monthly">Monthly</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="yearly">Yearly</option>
+                    </select>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="earningChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Transaction History -->
+        <div class="transaction-section">
+            <h3 class="section-title">Transaction History</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>TrxID <span class="sort-icon">↕</span></th>
+                            <th>Date <span class="sort-icon">↕</span></th>
+                            <th>Category <span class="sort-icon">↕</span></th>
+                            <th>Status <span class="sort-icon">↕</span></th>
+                            <th>Amount <span class="sort-icon">↕</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="renewals-list">
+                        <tr>
+                            <td>SGFU854564</td>
+                            <td>Jan 24, 2025</td>
+                            <td>Subscription</td>
+                            <td><span class="status-badge status-success">Success</span></td>
+                            <td>$750.00</td>
+                        </tr>
+                        <tr>
+                            <td>SGFU854564</td>
+                            <td>Jan 24, 2025</td>
+                            <td>Salary</td>
+                            <td><span class="status-badge status-success">Success</span></td>
+                            <td>$750.00</td>
+                        </tr>
+                        <tr>
+                            <td>SGFU854564</td>
+                            <td>Jan 24, 2025</td>
+                            <td>Withdraw</td>
+                            <td><span class="status-badge status-success">Success</span></td>
+                            <td>$750.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT: Sidebar Widgets -->
+    <div class="dashboard-sidebar">
+        <!-- Formation Status Card -->
+        <div class="formation-status-card">
+            <h3 class="formation-title">Formation Status</h3>
+            <p class="formation-status-text">In Progress</p>
+            <div class="progress-bar-container">
+                <div class="progress-bar" style="width: 65%"></div>
+            </div>
+            <p class="formation-estimate">Estimated Processing</p>
+            <p class="formation-days">4-5 business days</p>
+            <button class="btn-view-all">View All</button>
+        </div>
+
+        <!-- To Do List -->
+        <div class="todo-section">
+            <h3 class="section-title">To Do List</h3>
+            <div class="todo-list">
+                <div class="todo-item">
+                    <div class="todo-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                    </div>
+                    <div class="todo-info">
+                        <span class="todo-title">Run Payroll</span>
+                        <span class="todo-date">Mar 4 at 6:00pm</span>
+                    </div>
+                    <span class="todo-amount">$120</span>
+                </div>
+                <div class="todo-item">
+                    <div class="todo-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                    </div>
+                    <div class="todo-info">
+                        <span class="todo-title">Review time off request</span>
+                        <span class="todo-date">Mar 4 at 6:00pm</span>
+                    </div>
+                    <span class="todo-amount">$120</span>
+                </div>
+                <div class="todo-item">
+                    <div class="todo-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                    </div>
+                    <div class="todo-info">
+                        <span class="todo-title">Finish onboarding tony</span>
+                        <span class="todo-date">Mar 4 at 6:00pm</span>
+                    </div>
+                    <span class="todo-amount">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upcoming Payment -->
+        <div class="upcoming-payment-section">
+            <h3 class="section-title">Upcoming Payment</h3>
+            <p class="payment-date">13 Mar, 2025</p>
+            <div class="payment-list">
+                <div class="payment-item">
+                    <div class="payment-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                            <polyline points="9 22 9 12 15 12 15 22" />
+                        </svg>
+                    </div>
+                    <div class="payment-info">
+                        <span class="payment-title">Home Rent</span>
+                        <span class="payment-status">Pending</span>
+                    </div>
+                </div>
+                <div class="payment-item">
+                    <div class="payment-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="1" y="3" width="15" height="13" />
+                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                            <circle cx="5.5" cy="18.5" r="2.5" />
+                            <circle cx="18.5" cy="18.5" r="2.5" />
+                        </svg>
+                    </div>
+                    <div class="payment-info">
+                        <span class="payment-title">Car Insurance</span>
+                        <span class="payment-status">Pending</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.body.dataset.page = 'dashboard';
+</script>
+{% endblock %}

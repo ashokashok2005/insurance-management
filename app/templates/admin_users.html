@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-header">
+    <div class="greeting-section">
+        <h1 id="greeting-text-admin">Manage Team</h1>
+        <p class="subtitle">Agency & Agent Management</p>
+    </div>
+    <div class="header-actions">
+        <button class="btn-primary" onclick="showAddUserModal()">
+            <span class="material-symbols-outlined">add</span>
+            Add New Agent
+        </button>
+    </div>
+</div>
+
+<div class="stats-grid" id="admin-stats" style="margin-bottom: 2rem;">
+    <!-- Dynamic Stats dynamically populated in ui.js -->
+</div>
+
+<div class="transaction-section card">
+    <div class="card-header">
+        <h3>Agents & Staff</h3>
+        <div class="card-menu">
+            <span class="material-symbols-outlined">more_horiz</span>
+        </div>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>NAME</th>
+                    <th>EMAIL</th>
+                    <th>ROLE</th>
+                    <th>STATUS</th>
+                    <th style="text-align: right;">ACTION</th>
+                </tr>
+            </thead>
+            <tbody id="users-list">
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 3rem;">
+                        <div class="loading-spinner"></div>
+                        <p>Loading team members...</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Add User Modal -->
+<div id="addUserModal" class="modal-overlay">
+    <div class="modal-content auth-card" style="max-width: 500px;">
+        <div class="modal-header">
+            <h3>Add New Agent</h3>
+            <span class="close-modal material-symbols-outlined" onclick="closeModal('addUserModal')">close</span>
+        </div>
+        <form id="add-user-form" onsubmit="handleAuthAction(event, 'addUser')">
+            <div class="input-group">
+                <span class="material-symbols-outlined">person</span>
+                <input type="text" id="add-name" placeholder="Full Name" required>
+            </div>
+            <div class="input-group">
+                <span class="material-symbols-outlined">mail</span>
+                <input type="email" id="add-email" placeholder="Email Address" required>
+            </div>
+            <div class="input-group"
+                style="padding: 0 1rem; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 1rem;">
+                <span class="material-symbols-outlined" style="margin-right: 0.5rem; color: #718096;">lock</span>
+                <input type="password" id="add-password" placeholder="Temporary Password" required
+                    style="border:none; padding: 1rem 0; outline:none; flex:1; background:transparent;">
+            </div>
+            <div class="input-group"
+                style="padding: 0 1rem; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 1.5rem;">
+                <span class="material-symbols-outlined" style="margin-right: 0.5rem; color: #718096;">badge</span>
+                <select id="add-role"
+                    style="border:none; padding: 1rem 0; outline:none; flex:1; background:transparent;">
+                    <option value="agent">Agent</option>
+                    <option value="agency_admin">Agency Admin</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-auth">Create Account</button>
+        </form>
+    </div>
+</div>
+
+<!-- Reset Password Modal -->
+<div id="resetPassModal" class="modal-overlay">
+    <div class="modal-content auth-card" style="max-width: 400px;">
+        <div class="modal-header">
+            <h3>Reset Password</h3>
+            <span class="close-modal material-symbols-outlined" onclick="closeModal('resetPassModal')">close</span>
+        </div>
+        <form onsubmit="handleAuthAction(event, 'adminResetPassword')">
+            <input type="hidden" id="reset-user-id">
+            <p style="margin-bottom: 1rem; color: #666;">Set a new password for <span id="reset-user-email"
+                    style="font-weight: 600;"></span></p>
+            <div class="input-group" style="margin-bottom: 1.5rem;">
+                <span class="material-symbols-outlined">lock</span>
+                <input type="password" id="new-temp-password" placeholder="New Password" required>
+            </div>
+            <button type="submit" class="btn-auth">Update Password</button>
+        </form>
+    </div>
+</div>
+
+<!-- Reassign Modal -->
+<div id="reassignModal" class="modal-overlay">
+    <div class="modal-content auth-card" style="max-width: 500px;">
+        <div class="modal-header">
+            <h3>Reassign Records</h3>
+            <span class="close-modal material-symbols-outlined" onclick="closeModal('reassignModal')">close</span>
+        </div>
+        <form onsubmit="handleAuthAction(event, 'reassignRecords')">
+            <p style="margin-bottom: 1.5rem; font-size: 0.9rem; color: #666;">Move all customers and policies from one
+                agent to another.</p>
+
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">From Agent</label>
+            <div class="input-group">
+                <span class="material-symbols-outlined">person_remove</span>
+                <select id="reassign-from" class="form-select" required
+                    style="flex:1; border:none; outline:none; background:transparent;"></select>
+            </div>
+
+            <label style="display: block; margin-top: 1.5rem; margin-bottom: 0.5rem; font-weight: 500;">To Agent</label>
+            <div class="input-group">
+                <span class="material-symbols-outlined">person_add</span>
+                <select id="reassign-to" class="form-select" required
+                    style="flex:1; border:none; outline:none; background:transparent;"></select>
+            </div>
+
+            <button type="submit" class="btn-auth" style="margin-top: 2rem;">Transfer Records</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.body.dataset.page = 'admin_users';
+</script>
+{% endblock %}

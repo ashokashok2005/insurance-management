@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-header">
+    <div class="greeting-section">
+        <h1>Agency Management</h1>
+        <p class="subtitle">Platform Administration (Super Admin)</p>
+    </div>
+    <div class="header-actions">
+        <button class="btn-primary" onclick="showModal('addAgencyModal')">
+            <span class="material-symbols-outlined">domain_add</span>
+            Create Agency
+        </button>
+    </div>
+</div>
+
+<div class="transaction-section card">
+    <div class="card-header">
+        <h3>Registered Agencies</h3>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>AGENCY NAME</th>
+                    <th>CONTACT</th>
+                    <th>LIMIT</th>
+                    <th>STATUS</th>
+                    <th style="text-align: right;">ACTION</th>
+                </tr>
+            </thead>
+            <tbody id="agencies-list">
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 3rem;">
+                        <div class="loading-spinner"></div>
+                        <p>Loading agencies...</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Create Agency Modal -->
+<div id="addAgencyModal" class="modal-overlay">
+    <div class="modal-content auth-card" style="max-width: 500px;">
+        <div class="modal-header">
+            <h3>Create New Agency</h3>
+            <span class="close-modal material-symbols-outlined" onclick="closeModal('addAgencyModal')">close</span>
+        </div>
+        <form onsubmit="handleSuperAdminAction(event, 'createAgency')">
+            <div class="input-group">
+                <span class="material-symbols-outlined">business</span>
+                <input type="text" id="agency-name" placeholder="Agency Name" required>
+            </div>
+            <div class="input-group">
+                <span class="material-symbols-outlined">mail</span>
+                <input type="text" id="agency-contact" placeholder="Contact Details (Email/Phone)">
+            </div>
+            <div class="input-group">
+                <span class="material-symbols-outlined">group</span>
+                <input type="number" id="agency-limit" placeholder="Agent Limit" value="5">
+            </div>
+            <button type="submit" class="btn-auth">Create Agency</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.body.dataset.page = 'agencies';
+</script>
+{% endblock %}

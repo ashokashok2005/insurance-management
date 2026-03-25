@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="top-bar" style="margin-bottom: 1rem;">
+    <h2 data-i18n="pol_title">Policies</h2>
+    <div style="display: flex; gap: 1rem;">
+        <a href="#" class="btn" onclick="exportPolicies(event)" data-i18n="btn_export"
+            style="background: var(--secondary); color: white; width: auto; text-decoration: none;">Export Excel</a>
+        <button class="btn btn-primary" style="width: auto;" onclick="showAddPolicyModal()" data-i18n="btn_new_policy">+
+            New Policy</button>
+    </div>
+</div>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th data-i18n="tbl_policy_no">Policy #</th>
+                <th data-i18n="tbl_customer">Customer</th>
+                <th data-i18n="tbl_insurer">Insurer</th>
+                <th data-i18n="tbl_type">Type</th>
+                <th data-i18n="tbl_premium">Premium</th>
+                <th data-i18n="tbl_freq">Frequency</th>
+                <th data-i18n="tbl_expiry">Expiry</th>
+                <th data-i18n="tbl_status">Status</th>
+                <th data-i18n="tbl_action">Actions</th>
+            </tr>
+        </thead>
+        <tbody id="policies-list">
+            <tr>
+                <td colspan="8">Loading...</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div id="policy-modal" class="modal"
+    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div class="auth-card" style="width: 500px; max-height: 90vh; overflow-y: auto;">
+        <h3>Add New Policy</h3>
+        <form onsubmit="handleAddPolicy(event)" style="margin-top: 1rem;">
+            <div class="form-group">
+                <label class="form-label">Customer</label>
+                <select id="pol-customer" class="form-input" required>
+                    <option value="">Select Customer</option>
+                </select>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label">Policy Number</label>
+                    <input type="text" id="pol-number" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Insurer</label>
+                    <input type="text" id="pol-insurer" class="form-input" required>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label">Type</label>
+                    <select id="pol-type" class="form-input" required>
+                        <option value="Life">Life</option>
+                        <option value="Health">Health</option>
+                        <option value="Motor">Motor</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Premium</label>
+                    <input type="number" id="pol-premium" class="form-input" required step="0.01">
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label">Start Date</label>
+                    <input type="date" id="pol-start" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">End Date</label>
+                    <input type="date" id="pol-end" class="form-input" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Frequency</label>
+                <select id="pol-frequency" class="form-input" required>
+                    <option value="Yearly">Yearly</option>
+                    <option value="Quarterly">Quarterly</option>
+                    <option value="Monthly">Monthly</option>
+                </select>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                <button type="button" class="btn" style="background: var(--border); color: var(--text-main);"
+                    onclick="closePolicyModal()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save Policy</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.body.dataset.page = 'policies';
+    function showAddPolicyModal() {
+        document.getElementById('policy-modal').style.display = 'flex';
+        loadCustomerOptions(); // Helper to populate select
+    }
+    function closePolicyModal() {
+        document.getElementById('policy-modal').style.display = 'none';
+    }
+</script>
+{% endblock %}

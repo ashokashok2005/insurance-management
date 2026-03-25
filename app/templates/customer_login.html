@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block auth %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1 class="auth-title">Customer Login</h1>
+            <p class="auth-subtitle">View your policies and receipts</p>
+        </div>
+        <form onsubmit="handleCustomerLogin(event)">
+            <div class="form-group">
+                <label class="form-label">Email / Mobile</label>
+                <input type="text" id="cust-login-id" class="form-input" required placeholder="Email or Mobile Number">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" id="cust-login-pass" class="form-input" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn btn-primary">Sign In</button>
+        </form>
+        <p style="margin-top: 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.875rem;">
+            Agent Login? <a href="/login">Click here</a>
+        </p>
+    </div>
+</div>
+
+<script>
+    async function handleCustomerLogin(event) {
+        event.preventDefault();
+        const login_id = document.getElementById('cust-login-id').value;
+        const password = document.getElementById('cust-login-pass').value;
+
+        try {
+            const response = await fetch('/api/customer/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ login_id, password })
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                saveToken(data.access_token, { name: data.customer_name, role: 'customer' });
+                window.location.href = '/customer/dashboard';
+            } else {
+                alert(data.error || 'Login failed');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Login failed');
+        }
+    }
+</script>
+{% endblock %}

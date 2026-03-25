@@ -1,0 +1,15 @@
+flask
+flask-sqlalchemy
+flask-cors
+flask-jwt-extended
+mysql-connector-python
+python-dotenv
+werkzeug
+pandas
+openpyxl
+Flask-Mail
+stripe
+fpdf2
+python-dateutil
+pymysql
+mysql-connector-python
